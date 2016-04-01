@@ -1,0 +1,73 @@
+//Find the number of positive integral solutions for the equations
+//1/x + 1/y = 1/N!
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+#define mod 1000007
+long powerof(long p,long n)
+    {
+    long x=0;
+    while(n/p)
+        {
+        x+=(n/p);
+        n/=p;
+    }
+    return x;
+}
+void markMultiples(bool arr[], long a, long n)
+{
+    int i = 2, num;
+    while ( (num = i*a) <= n )
+    {
+        arr[ num-1 ] = 1; // minus 1 because index starts from 0.
+        ++i;
+    }
+}
+
+// A function to print all prime numbers smaller than n
+long SieveOfEratosthenes(long n)
+{long ans =1;
+    // There are no prime numbers smaller than 2
+    if (n >= 2)
+    {
+        // Create an array of size n and initialize all elements as 0
+        bool arr[n];
+        memset(arr, 0, sizeof(arr));
+
+        /* Following property is maintained in the below for loop
+           arr[i] == 0 means i + 1 is prime
+           arr[i] == 1 means i + 1 is not prime */
+        for (int i=1; i<n; ++i)
+        {
+            if ( arr[i] == 0 )
+            {
+                //(i+1) is prime, print it and mark its multiples
+                long p=i+1;
+                markMultiples(arr, i+1, n);
+                ans=((ans%mod)*((1+(2*powerof(p,n)))%mod))%mod;
+            }
+        }
+    }
+ return ans;
+}
+
+// Driver Program to test above function
+int main()
+{
+    long n;
+    cin>>n;
+    if(n==1)
+        printf("1");
+    else
+        {
+    long ans=SieveOfEratosthenes(n);
+        printf("%ld",ans);
+    }
+    return 0;
+}

@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<math.h>
+void merge(int a[],int p,int q,int r)
+{
+	int n1=q-p+1;
+	int n2=r-q;
+	int b[n1],c[n2];
+	int k=0,l=0,m,n;
+	for(m=p;m<=q;m++)
+	{b[k++]=a[m];}
+	for(n=q+1;n<=r;n++)
+	{c[l++]=a[n];}
+	int i=p,bj=0,cj=0;
+	while(bj<n1&&cj<n2)
+	{
+		if(b[bj]<c[cj])
+		{a[i++]=b[bj++];}
+		else
+		{a[i++]=c[cj++];}
+	}
+	if(bj<n1)
+	{
+		while(bj<n1)
+		{a[i++]=b[bj++];}
+	}
+	else
+	{
+		while(cj<n2)
+		{a[i++]=c[cj++];}
+	}
+}
+void msort(int a[],int p,int r)
+{
+	if(p>=r)
+	return;
+	else
+	{
+		int q=floor((p+r)/2);
+		msort(a,p,q);
+		msort(a,q+1,r);
+		merge(a,p,q,r);
+	}
+}
+int main()
+{
+	int n;
+	scanf("%d",&n);
+	int i,a[n];
+	for(i=0;i<n;i++)
+	scanf("%d",&a[i]);
+	msort(a,0,n-1);
+	int j;
+	for(j=0;j<n;j++)
+	printf("%d ",a[j]);
+	return 0;
+}

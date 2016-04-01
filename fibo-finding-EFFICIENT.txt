@@ -1,0 +1,71 @@
+﻿//You're given three numbers: A, B, and N, and all you have to do is to find the number F(N) where 
+//F0=A F1=B F(i)=F(i−1) + F(i−2) for i≥2
+//As the number can be very large, output it modulo 10^9+7.
+
+
+#include<stdio.h>
+long long mod=1000000007;
+long long a,b;
+
+
+void multiply(long long F[2][2], long long M[2][2]);
+ 
+void power(long long F[2][2], long long n);
+ 
+/* function that returns nth Fibonacci number */
+long long fib(long long n)
+{
+  if (n == 0)
+    return 0;
+    long long F[2][2] = {{1,1},{1,0}};
+  power(F, n-1);
+  return F[0][0];
+}
+ 
+/* Optimized version of power() in method 4 */
+void power(long long F[2][2], long long n)
+{
+  if( n == 0 || n == 1)
+      return;
+  long long M[2][2] = {{1,1},{1,0}};
+ 
+  power(F, n/2);
+  multiply(F, F);
+ 
+  if (n%2 != 0)
+     multiply(F, M);
+}
+ 
+void multiply(long long F[2][2], long long M[2][2])
+{
+  long long x =  ((F[0][0]*M[0][0])%mod + (F[0][1]*M[1][0])%mod)%mod;
+  long long y =  ((F[0][0]*M[0][1])%mod + (F[0][1]*M[1][1])%mod)%mod;
+  long long z =  ((F[1][0]*M[0][0])%mod + (F[1][1]*M[1][0])%mod)%mod;
+  long long w =  ((F[1][0]*M[0][1])%mod + (F[1][1]*M[1][1])%mod)%mod;
+ 
+  F[0][0] = x;
+  F[0][1] = y;
+  F[1][0] = z;
+  F[1][1] = w;
+}
+ 
+int main ()
+{
+    int t;
+    scanf("%d",&t);
+    while(t--){
+    long long n;
+    scanf("%lld%lld%lld",&a,&b,&n);
+    if(n==0)
+        printf("%lld\n",a);
+    else if(n==1)
+        printf("%lld\n",b);
+    else
+        {
+    
+        long long ans=(((a+b)*fib(n-1))%mod + (b*fib(n-2))%mod)%mod;
+        printf("%lld\n",ans);
+    }
+    }
+  return 0;
+}

@@ -1,0 +1,36 @@
+include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+int gcd(int n1,int n2)
+    {
+    while(n1!=n2){
+if(n1>=n2)
+n1=n1-n2;
+else
+n2=n2-n1;
+}
+return n1;
+}
+int main() {
+
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */    
+    int t;
+    scanf("%d",&t);
+    while(t--)
+        {
+        int a,b,c;
+        scanf("%d%d%d",&a,&b,&c);
+        int x=gcd(a,b);
+        int u;
+        if(a>b)
+            u=a;
+        else
+            u=b;
+        if(c%x==0&&c<=u)
+            printf("YES\n");
+        else
+            printf("NO\n");
+    }
+    return 0;
+}

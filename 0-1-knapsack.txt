@@ -1,0 +1,39 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    int t;
+    cin>>t;
+    while(t--)
+        {
+        int n,k;
+        cin>>n>>k;
+        int weight[n],value[n];
+        for(int u=0;u<n;u++)
+            {
+            cin>>weight[u];
+            value[u]=weight[u];
+        }
+        int knapsack[k+1];
+        knapsack[0]=0;
+        for(int j=1;j<=k;j++)
+            {
+            int max=knapsack[j-1];
+            for(int i=0;i<n;i++)
+        {
+                int x=j-weight[i];
+                if(x>=0&&(knapsack[x]+value[i])>max)
+                    max=knapsack[x]+value[i];
+                knapsack[j]=max;
+            }
+        }
+        printf("%d\n",knapsack[k]);
+    }
+    return 0;
+}

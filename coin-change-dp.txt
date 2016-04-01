@@ -1,0 +1,43 @@
+//Given a value NN, if we want to make change for NN cents, and we have infinite supply of each of C={C1,C2,…,CM}
+//valued coins, how many ways can we make the change? The order of coins doesn’t matter.
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */  
+    int n,m;
+    cin>>n>>m;
+    int coins[m];
+    for(int o=0;o<m;o++)
+        cin>>coins[o];
+    long long ans[m][n+1];
+    for(int u=0;u<m;u++)
+        ans[u][0]=1;
+    sort(coins,coins+m);
+    for(int y=1;y<=n;y++)
+        {
+        if(y%coins[0]==0)
+            ans[0][y]=1;
+        else
+            ans[0][y]=0;
+    }
+    for(int i=1;i<m;i++)
+        {
+        for(int j=1;j<=n;j++)
+            {
+            if(j>=coins[i])
+                ans[i][j]=ans[i-1][j]+ans[i][j-coins[i]];
+            else
+                ans[i][j]=ans[i-1][j];
+        }
+    }
+    printf("%lld",ans[m-1][n]);
+    return 0;
+}

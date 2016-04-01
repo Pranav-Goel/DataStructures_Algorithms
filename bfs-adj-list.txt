@@ -1,0 +1,101 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <list>
+using namespace std;
+int dist[1000];
+// This class represents a directed graph using adjacency list representation
+class Graph
+{
+    int V;    // No. of vertices
+    list<int> *adj;    // Pointer to an array containing adjacency lists
+public:
+    Graph(int V);  // Constructor
+    void addEdge(int v, int w); // function to add an edge to graph
+    void BFS(int s);  // prints BFS traversal from a given source s
+};
+ 
+Graph::Graph(int V)
+{
+    this->V = V;
+    adj = new list<int>[V];
+}
+ 
+void Graph::addEdge(int v, int w)
+{
+    adj[v].push_back(w); // Add w to v’s list.
+}
+ 
+void Graph::BFS(int s)
+{
+    // Mark all the vertices as not visited
+    bool *visited = new bool[V];
+    for(int i = 0; i < V; i++)
+    {visited[i] = false;dist[i]=0;}
+    
+    // Create a queue for BFS
+    queue <int> Q;
+ 
+    // Mark the current node as visited and enqueue it
+    visited[s] = true;
+    Q.push(s);
+ 
+    // 'i' will be used to get all adjacent vertices of a vertex
+    list<int>::iterator it;
+ 
+    while(!Q.empty())
+    {
+        // Dequeue a vertex from queue and print it
+        s = Q.front();
+        Q.pop();
+ 
+        // Get all adjacent vertices of the dequeued vertex s
+        // If a adjacent has not been visited, then mark it visited
+        // and enqueue it
+        for(it = adj[s].begin(); it != adj[s].end(); ++it)
+        {
+            if(!visited[*it])
+            {   dist[*it]=1+dist[s];
+                visited[*it] = true;
+                Q.push(*it);
+            }
+        }
+    }
+}
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    int t;
+    cin>>t;
+    while(t--)
+        {
+        int n;long m;
+        cin>>n>>m;
+       Graph g(n);
+        for(long k=0;k<m;k++)
+            {
+            int x,y;
+            cin>>x>>y;
+            g.addEdge(x-1,y-1);g.addEdge(y-1,x-1);
+            
+        }
+        
+        int source;cin>>source;
+        g.BFS(source-1);
+        for(int i=0;i<n;i++)
+            {
+            if(i!=(source-1))
+                {
+                if(dist[i]==0)
+                    printf("-1 ");
+                else
+                    printf("%d ",6*dist[i]);
+            }
+        }
+        printf("\n");
+    }
+    return 0;
+}

@@ -1,0 +1,45 @@
+﻿//Your friend gives you an equation A≡X2(modM)A≡X2(modM) and asks you to find an integer solution for XX.
+//However, you know your friend's mischievous nature and suspect that there is no solution to such an equation. 
+//Thus, you first want to find out whether there is a solution to it.
+
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+long powmod(long x,long e,long mod)
+    {
+    long res;
+    if(e==0)
+        res=1;
+    else if(e==1)
+        res=x;
+        else
+        {
+        res=powmod(x,e/2,mod);
+        res=res*res%mod;
+        if(e%2)
+            res=res*x%mod;
+    }
+    return res;
+    
+}
+int main() {
+
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */    long t;
+    scanf("%ld",&t);
+    while(t--)
+        {
+        long a,m;
+        scanf("%ld%ld",&a,&m);
+        if(a==0)
+            {printf("YES\n");continue;}
+        if(m==2)
+            {printf("YES\n");continue;}
+        if(powmod(a,(m-1)/2,m)==1)
+            printf("YES\n");
+        else
+            printf("NO\n");
+    }
+    return 0;
+}
